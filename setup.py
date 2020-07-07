@@ -20,7 +20,7 @@ Links:
 
 from setuptools import setup, find_packages
 
-requirements = [ ]
+requirements = ['pyjwt']
 
 setup_requirements = ['pytest-runner', ]
 
