@@ -15,36 +15,41 @@ class Identity:
     """ Holds the identity of the logged user
     """
     def __init__(self, token):
-        self.token = token
+        self._token = token
         try:
-            self.decoded = jwt.decode(self.token, verify=False)
+            self._decoded = jwt.decode(self._token, verify=False)
         except InvalidTokenError:
             raise ValueError('Invalid JWT token')
 
-    def get_user_id(self):
+    def user_id(self):
         """ Returns the user_id provided by firebase
         """
-        return self.decoded.get('user_id')
+        return self._decoded.get('user_id')
 
-    def get_shops(self):
+    def shops(self):
         """ Returns a list of shop_ids that the user has access to
         """
-        claims = self.decoded.get('claims')
+        claims = self._decoded.get('claims')
         if not claims:
             logging.error('claims not found')
             return []
         return claims.get('shop')
 
-    def get_organizations(self):
+    def organizations(self):
         """ Returns a list of organization_ids that the user has access to
         """
-        claims = self.decoded.get('claims')
+        claims = self._decoded.get('claims')
         if not claims:
             logging.error('claims not found')
             return []
         return claims.get('organization')
 
-    def get_token(self):
+    def data(self):
+        """ Return the entire data from the token
+        """
+        return self._decoded
+
+    def token(self):
         """ Returns the original JWT token
         """
-        return self.token
+        return self._token

@@ -65,48 +65,69 @@ class TestIdentity:
 
         assert isinstance(idem, Identity)
 
-    def test_get_token(self, token):
+    def test_token(self, token):
         idem = Identity(token)
 
-        tk = idem.get_token()
+        tk = idem.token()
 
         assert token == tk
 
-    def test_get_user_id(self, token):
+    def test_user_id(self, token):
         idem = Identity(token)
 
-        user_id = idem.get_user_id()
+        user_id = idem.user_id()
 
         assert user_id == '6naf80jtybVRuP22eYcIYGX2KJK2'
 
-    def test_get_shops(self, token):
+    def test_shops(self, token):
         idem = Identity(token)
 
-        shops = idem.get_shops()
+        shops = idem.shops()
 
         assert shops == ['12345', '33442']
 
     @patch('logging.error')
-    def test_get_shops_none(self, mocked_error, empty_token):
+    def test_shops_none(self, mocked_error, empty_token):
         idem = Identity(empty_token)
 
-        shops = idem.get_shops()
+        shops = idem.shops()
 
         assert shops == []
         mocked_error.assert_called_once
 
-    def test_get_organizations(self, token):
+    def test_organizations(self, token):
         idem = Identity(token)
 
-        organizations = idem.get_organizations()
+        organizations = idem.organizations()
 
         assert organizations == ['33333']
 
     @patch('logging.error')
-    def test_get_organizations_none(self, mocked_error, empty_token):
+    def test_organizations_none(self, mocked_error, empty_token):
         idem = Identity(empty_token)
 
-        organizations = idem.get_organizations()
+        organizations = idem.organizations()
 
         assert organizations == []
         mocked_error.assert_called_once
+
+    def test_data(self, token):
+        idem = Identity(token)
+        expected_keys = {
+            'roles',
+            'claims',
+            'iss',
+            'aud',
+            'auth_time',
+            'user_id',
+            'sub',
+            'iat',
+            'exp',
+            'email',
+            'email_verified',
+            'firebase'
+        }
+
+        data = idem.data()
+
+        assert set(data.keys()) == expected_keys

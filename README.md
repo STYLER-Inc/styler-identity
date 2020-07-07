@@ -12,7 +12,7 @@ Simple library used to handle user data from Firebase generated JWT tokens.
 
 ```batch
 
-    $ pip install styler_identity
+    $ pip install styler-identity
 ```
 
 ## Usage
