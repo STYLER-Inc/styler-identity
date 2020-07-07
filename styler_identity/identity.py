@@ -5,6 +5,8 @@
     Encapsulates the logic to handle JWT tokens
 """
 
+import logging
+
 from jwt.exceptions import InvalidTokenError
 import jwt
 
@@ -22,17 +24,25 @@ class Identity:
     def get_user_id(self):
         """ Returns the user_id provided by firebase
         """
-        return self.decoded['user_id']
+        return self.decoded.get('user_id')
 
     def get_shops(self):
         """ Returns a list of shop_ids that the user has access to
         """
-        return self.decoded['claims']['shop']
+        claims = self.decoded.get('claims')
+        if not claims:
+            logging.error('claims not found')
+            return []
+        return claims.get('shop')
 
     def get_organizations(self):
         """ Returns a list of organization_ids that the user has access to
         """
-        return self.decoded['claims']['organization']
+        claims = self.decoded.get('claims')
+        if not claims:
+            logging.error('claims not found')
+            return []
+        return claims.get('organization')
 
     def get_token(self):
         """ Returns the original JWT token

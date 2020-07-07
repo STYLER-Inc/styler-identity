@@ -52,9 +52,11 @@ clean-test: ## remove test and coverage artifacts
 test-all: ## run tests on every Python version with tox
 	tox
 
-release: clean ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+release-prod: dist ## package and upload a release
+	twine upload dist/*
+
+release-test: dist ## package and upload a release
+	twine upload --repository testpypi dist/*
 
 dist: clean ## builds source and wheel package
 	python setup.py sdist

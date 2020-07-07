@@ -3,6 +3,7 @@
 
 """Tests for `styler_identity` package."""
 
+from unittest.mock import patch
 import pytest
 
 
@@ -31,6 +32,24 @@ def token():
         'HS-mgPvZA0ag'
     )
 
+@pytest.fixture
+def empty_token():
+    return (
+        'eyJhbGciOiJSUzI1NiIsImtpZCI6IjdkNTU0ZjBjMTJjNjQ3MGZiMTg1MmY3OWRiZjY'
+        '0ZjhjODQzYmIxZDciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXR'
+        'va2VuLmdvb2dsZS5jb20vZmFjeS1kZXZlbG9wbWVudCIsImF1ZCI6ImZhY3ktZGV2ZW'
+        'xvcG1lbnQiLCJhdXRoX3RpbWUiOjE1OTM2NzI5MzYsInVzZXJfaWQiOiI2bmFmODBqd'
+        'HliVlJ1UDIyZVljSVlHWDJLSksyIiwic3ViIjoiNm5hZjgwanR5YlZSdVAyMmVZY0lZ'
+        'R1gyS0pLMiIsImlhdCI6MTU5MzY3MjkzNiwiZXhwIjoxNTkzNjc2NTM2LCJlbWFpbCI'
+        '6ImJydW5vLnN1Z2Fub0BzdHlsZXIubGluayIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZS'
+        'wiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJicnVuby5zdWdhbm9Ac'
+        '3R5bGVyLmxpbmsiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.iRtVz'
+        'aAEXvWVSGXTi5CFu6bG_kIX3D8M85mZI66yku4hzK5YQ0UUlBYiiz_wO1lTqsIUy5e6'
+        'rO8-xWYSfh-rtFQP_e3uDtNFIZGoUuD_UJjgLPT0MXWYsTt4Ov2Qhyh1PPNrnGMxNKQ'
+        'YB46uq4qiCkay9oNbo3Gs5edS_bRTxrdv8lSqEvOJbnzJy4TbD6KDrCO0tU3onEcKYz'
+        'qfB7308k08N-rmqjtMpI5xxAvHrbg3Fqop7gRWg2wi6PCRjD-UB-Euez7BsVXgF6nYQ'
+        'PUQzu1sVnAkhiDCXNDbH8f3mG5h_aR92ri_GfcsEh52MlLOc0MtSLvMIZ3Sv_NoLauK1A'
+    )
 
 class TestIdentity:
     """ Tests 
@@ -67,9 +86,27 @@ class TestIdentity:
 
         assert shops == ['12345', '33442']
 
+    @patch('logging.error')
+    def test_get_shops_none(self, mocked_error, empty_token):
+        idem = Identity(empty_token)
+
+        shops = idem.get_shops()
+
+        assert shops == []
+        mocked_error.assert_called_once
+
     def test_get_organizations(self, token):
         idem = Identity(token)
 
         organizations = idem.get_organizations()
 
         assert organizations == ['33333']
+
+    @patch('logging.error')
+    def test_get_organizations_none(self, mocked_error, empty_token):
+        idem = Identity(empty_token)
+
+        organizations = idem.get_organizations()
+
+        assert organizations == []
+        mocked_error.assert_called_once
