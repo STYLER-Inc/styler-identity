@@ -23,9 +23,9 @@ from styler_identity import Identity
 
 identity = Identity('JWT token')
 
-identity.get_user_id()          # user_id
-identity.get_shops()            # list of shop_ids
-identity.get_organizations()    # list of organization_ids
-identity.get_token()            # Original JWT token
+identity.user_id()          # user_id
+identity.shops()            # list of shop_ids
+identity.organizations()    # list of organization_ids
+identity.token()            # Original JWT token
 
 ```
