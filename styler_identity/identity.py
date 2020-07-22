@@ -33,7 +33,7 @@ class Identity:
         if not claims:
             logging.error('claims not found')
             return []
-        return claims.get('shop')
+        return claims.get('shop', [])
 
     def organizations(self):
         """ Returns a list of organization_ids that the user has access to
@@ -42,7 +42,7 @@ class Identity:
         if not claims:
             logging.error('claims not found')
             return []
-        return claims.get('organization')
+        return claims.get('organization', [])
 
     def data(self):
         """ Return the entire data from the token
