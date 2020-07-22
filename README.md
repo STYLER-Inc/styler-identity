@@ -2,7 +2,7 @@
 
 
 [![Pypi link](https://img.shields.io/pypi/v/styler_identity.svg)](https://pypi.python.org/pypi/styler_identity)
-
+[![Travis link](https://img.shields.io/travis/brunotoshio/styler_validation.svg)](https://travis-ci.com/brunotoshio/styler_validation)
 
 Simple library used to handle user data from Firebase generated JWT tokens.
 
