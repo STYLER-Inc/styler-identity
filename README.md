@@ -11,7 +11,6 @@ Simple library used to handle user data from Firebase generated JWT tokens.
 
 
 ```batch
-
     $ pip install styler-identity
 ```
 
@@ -24,6 +23,7 @@ from styler_identity import Identity
 identity = Identity('JWT token')
 
 identity.user_id()          # user_id
+identity.is_system_admin()  # Is system administrator? True/False
 identity.shops()            # list of shop_ids
 identity.organizations()    # list of organization_ids
 identity.token()            # Original JWT token
