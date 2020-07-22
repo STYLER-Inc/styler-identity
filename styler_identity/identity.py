@@ -26,6 +26,11 @@ class Identity:
         """
         return self._decoded.get('user_id')
 
+    def is_system_admin(self):
+        """ Returns a boolean identifying the user as system administrator
+        """
+        return self._decoded.get('system_admin', False)
+
     def shops(self):
         """ Returns a list of shop_ids that the user has access to
         """

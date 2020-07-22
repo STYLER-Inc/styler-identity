@@ -79,6 +79,13 @@ class TestIdentity:
 
         assert user_id == '6naf80jtybVRuP22eYcIYGX2KJK2'
 
+    def test_is_system_admin(self, token):
+        idem = Identity(token)
+
+        is_sysadmin = idem.is_system_admin()
+
+        assert not is_sysadmin
+
     def test_shops(self, token):
         idem = Identity(token)
 
