@@ -4,7 +4,7 @@
 
 __author__ = """Bruno Toshio Sugano"""
 __email__ = 'bruno.sugano@styler.link'
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 
 
 from styler_identity.identity import Identity
