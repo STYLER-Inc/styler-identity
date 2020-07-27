@@ -27,9 +27,33 @@ class Identity:
         return self._decoded.get('user_id')
 
     def is_system_admin(self):
-        """ Returns a boolean identifying the user as system administrator
+        """ Returns a boolean identifying the user as a system administrator
         """
-        return self._decoded.get('system_admin', False)
+        roles = self._decoded.get('roles')
+        if not roles:
+            logging.error('roles not found')
+            return False
+        return 'sysadmin' in roles
+
+    def is_admin(self):
+        """ Returns a boolean identifying the user 
+            as an organization administrator
+        """
+        roles = self._decoded.get('roles')
+        if not roles:
+            logging.error('roles not found')
+            return False
+        return 'admin' in roles
+
+    def is_staff(self):
+        """ Returns a boolean identifying the user 
+            as a shop staff
+        """
+        roles = self._decoded.get('roles')
+        if not roles:
+            logging.error('roles not found')
+            return False
+        return 'staff' in roles
 
     def shops(self):
         """ Returns a list of shop_ids that the user has access to
