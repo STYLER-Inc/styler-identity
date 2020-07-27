@@ -29,49 +29,29 @@ class Identity:
     def is_system_admin(self):
         """ Returns a boolean identifying the user as a system administrator
         """
-        roles = self._decoded.get('roles')
-        if not roles:
-            logging.error('roles not found')
-            return False
-        return 'sysadmin' in roles
+        return 'sysadmin' in self._roles()
 
     def is_admin(self):
         """ Returns a boolean identifying the user 
             as an organization administrator
         """
-        roles = self._decoded.get('roles')
-        if not roles:
-            logging.error('roles not found')
-            return False
-        return 'admin' in roles
+        return 'admin' in self._roles()
 
     def is_staff(self):
         """ Returns a boolean identifying the user 
             as a shop staff
         """
-        roles = self._decoded.get('roles')
-        if not roles:
-            logging.error('roles not found')
-            return False
-        return 'staff' in roles
+        return 'staff' in self._roles()
 
     def shops(self):
         """ Returns a list of shop_ids that the user has access to
         """
-        claims = self._decoded.get('claims')
-        if not claims:
-            logging.error('claims not found')
-            return []
-        return claims.get('shop', [])
+        return self._custom_claims().get('shop', [])
 
     def organizations(self):
         """ Returns a list of organization_ids that the user has access to
         """
-        claims = self._decoded.get('claims')
-        if not claims:
-            logging.error('claims not found')
-            return []
-        return claims.get('organization', [])
+        return self._custom_claims().get('organization', [])
 
     def data(self):
         """ Return the entire data from the token
@@ -82,3 +62,19 @@ class Identity:
         """ Returns the original JWT token
         """
         return self._token
+
+    def _roles(self):
+        """ Returns the collection of roles
+        """
+        if 'claims' not in self._decoded or 'roles' not in self._decoded['claims']:
+            logging.error('roles not found')
+            return []
+        return self._decoded['claims']['roles']
+
+    def _custom_claims(self):
+        """ Returns the collection of custom claims
+        """
+        if 'claims' not in self._decoded or 'claims' not in self._decoded['claims']:
+            logging.error('claims not found')
+            return {}
+        return self._decoded['claims']['claims']

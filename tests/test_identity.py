@@ -40,8 +40,16 @@ class TestIdentity:
         assert user_id == '1234'
 
     def test_is_system_admin(self, token):
-        idem = Identity(token({'roles':['sysadmin']}))
-        idem2 = Identity(token({'roles':['admin']}))
+        idem = Identity(token({
+            'claims': {
+                'roles':['sysadmin']
+            }
+        }))
+        idem2 = Identity(token({
+            'claims': {
+                'roles':['admin']
+            }
+        }))
 
         it_should_be = idem.is_system_admin()
         is_should_not_be = idem2.is_system_admin()
@@ -50,8 +58,16 @@ class TestIdentity:
         assert not is_should_not_be
 
     def test_is_admin(self, token):
-        idem = Identity(token({'roles':['admin']}))
-        idem2 = Identity(token({'roles':['staff']}))
+        idem = Identity(token({
+            'claims': {
+                'roles':['admin']
+            }
+        }))
+        idem2 = Identity(token({
+            'claims': {
+                'roles':['staff']
+            }
+        }))
 
         it_should_be = idem.is_admin()
         is_should_not_be = idem2.is_admin()
@@ -60,8 +76,16 @@ class TestIdentity:
         assert not is_should_not_be
 
     def test_is_staff(self, token):
-        idem = Identity(token({'roles':['staff']}))
-        idem2 = Identity(token({'roles':['admin']}))
+        idem = Identity(token({
+            'claims': {
+                'roles':['staff']
+            }
+        }))
+        idem2 = Identity(token({
+            'claims': {
+                'roles':['admin']
+            }
+        }))
 
         it_should_be = idem.is_staff()
         is_should_not_be = idem2.is_staff()
@@ -99,7 +123,9 @@ class TestIdentity:
     def test_shops(self, token):
         idem = Identity(token({
             'claims': {
-                'shop': ['12345', '33442']
+                'claims': {
+                    'shop': ['12345', '33442']
+                }
             }
         }))
 
@@ -119,7 +145,9 @@ class TestIdentity:
     def test_organizations(self, token):
         idem = Identity(token({
             'claims': {
-                'organization': ['33333']
+                'claims': {
+                    'organization': ['33333']
+                }
             }
         }))
 
@@ -139,7 +167,6 @@ class TestIdentity:
     def test_data(self, token):
         idem = Identity(token())
         expected_keys = {
-            'roles',
             'claims',
             'iss',
             'aud',

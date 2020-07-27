@@ -9,10 +9,12 @@ def token():
         if overwrites is None:
             overwrites = {}
         data = {**{
-            'roles': [],
             'claims': {
-                'shops': [],
-                'organizations': []
+                'roles': [],
+                'claims': {
+                    'shops': [],
+                    'organizations': []
+                }
             },
             'iss': 'issuer',
             'aud': 'audition',
