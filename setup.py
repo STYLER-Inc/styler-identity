@@ -34,6 +34,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',
     ],
     description="Simple library used to handle user data from JWT tokens",
@@ -48,6 +49,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/STYLER-Inc/styler-identity',
-    version='0.3.2',
+    version='0.4.0',
     zip_safe=False,
 )
