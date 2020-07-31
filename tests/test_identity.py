@@ -40,16 +40,8 @@ class TestIdentity:
         assert user_id == '1234'
 
     def test_is_system_admin(self, token):
-        idem = Identity(token({
-            'claims': {
-                'roles':['sysadmin']
-            }
-        }))
-        idem2 = Identity(token({
-            'claims': {
-                'roles':['admin']
-            }
-        }))
+        idem = Identity(token(sysadmin=True))
+        idem2 = Identity(token(admin=True))
 
         it_should_be = idem.is_system_admin()
         is_should_not_be = idem2.is_system_admin()
@@ -58,16 +50,8 @@ class TestIdentity:
         assert not is_should_not_be
 
     def test_is_admin(self, token):
-        idem = Identity(token({
-            'claims': {
-                'roles':['admin']
-            }
-        }))
-        idem2 = Identity(token({
-            'claims': {
-                'roles':['staff']
-            }
-        }))
+        idem = Identity(token(admin=True))
+        idem2 = Identity(token(staff=True))
 
         it_should_be = idem.is_admin()
         is_should_not_be = idem2.is_admin()
@@ -76,16 +60,8 @@ class TestIdentity:
         assert not is_should_not_be
 
     def test_is_staff(self, token):
-        idem = Identity(token({
-            'claims': {
-                'roles':['staff']
-            }
-        }))
-        idem2 = Identity(token({
-            'claims': {
-                'roles':['admin']
-            }
-        }))
+        idem = Identity(token(staff=True))
+        idem2 = Identity(token(admin=True))
 
         it_should_be = idem.is_staff()
         is_should_not_be = idem2.is_staff()
@@ -121,13 +97,7 @@ class TestIdentity:
         mocked_error.assert_called_once
 
     def test_shops(self, token):
-        idem = Identity(token({
-            'claims': {
-                'claims': {
-                    'shop': ['12345', '33442']
-                }
-            }
-        }))
+        idem = Identity(token(shops=['12345', '33442']))
 
         shops = idem.shops()
 
@@ -143,13 +113,7 @@ class TestIdentity:
         mocked_error.assert_called_once
 
     def test_organizations(self, token):
-        idem = Identity(token({
-            'claims': {
-                'claims': {
-                    'organization': ['33333']
-                }
-            }
-        }))
+        idem = Identity(token(organizations=['33333']))
 
         organizations = idem.organizations()
 
@@ -168,6 +132,7 @@ class TestIdentity:
         idem = Identity(token())
         expected_keys = {
             'claims',
+            'roles',
             'iss',
             'aud',
             'auth_time',

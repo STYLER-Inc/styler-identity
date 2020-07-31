@@ -66,15 +66,15 @@ class Identity:
     def _roles(self):
         """ Returns the collection of roles
         """
-        if 'claims' not in self._decoded or 'roles' not in self._decoded['claims']:
+        if 'roles' not in self._decoded:
             logging.error('roles not found')
             return []
-        return self._decoded['claims']['roles']
+        return self._decoded['roles']
 
     def _custom_claims(self):
         """ Returns the collection of custom claims
         """
-        if 'claims' not in self._decoded or 'claims' not in self._decoded['claims']:
+        if 'claims' not in self._decoded:
             logging.error('claims not found')
             return {}
-        return self._decoded['claims']['claims']
+        return self._decoded['claims']
