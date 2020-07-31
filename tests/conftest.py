@@ -5,16 +5,21 @@ import jwt
 
 @pytest.fixture
 def token():
-    def generate(overwrites=None):
+    def generate(
+            overwrites=None,
+            sysadmin=False,
+            admin=False,
+            staff=False,
+            shops=None,
+            organizations=None
+        ):
         if overwrites is None:
             overwrites = {}
         data = {**{
+            'roles': [],
             'claims': {
-                'roles': [],
-                'claims': {
-                    'shops': [],
-                    'organizations': []
-                }
+                'shop': [],
+                'organization': []
             },
             'iss': 'issuer',
             'aud': 'audition',
@@ -32,9 +37,20 @@ def token():
                 'sign_in_provider': 'custom'
             }
         }, **overwrites}
-        return jwt.encode(data, 'secret-key')
+        if sysadmin:
+            data['roles'].append('sysadmin')
+        if admin:
+            data['roles'].append('admin')
+        if staff:
+            data['roles'].append('staff')
+        if shops:
+            data['claims']['shop'].extend(shops)
+            data['roles'].append('staff')
+        if organizations:
+            data['claims']['organization'].extend(organizations)
+            data['roles'].append('admin')
+        return jwt.encode(data, 'secret-key').decode('utf-8')
     return generate
-
 
 @pytest.fixture
 def empty_token():
