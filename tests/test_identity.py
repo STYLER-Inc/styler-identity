@@ -69,32 +69,32 @@ class TestIdentity:
         assert it_should_be
         assert not is_should_not_be
 
-    @patch('logging.error')
-    def test_invalid_roles_sysadmin(self, mocked_error, empty_token):
+    @patch('logging.warning')
+    def test_invalid_roles_sysadmin(self, mocked_warning, empty_token):
         idem = Identity(empty_token)
 
         result = idem.is_system_admin()
 
         assert not result
-        mocked_error.assert_called_once
+        mocked_warning.assert_called_once
 
-    @patch('logging.error')
-    def test_invalid_roles_admin(self, mocked_error, empty_token):
+    @patch('logging.warning')
+    def test_invalid_roles_admin(self, mocked_warning, empty_token):
         idem = Identity(empty_token)
 
         result = idem.is_admin()
 
         assert not result
-        mocked_error.assert_called_once
+        mocked_warning.assert_called_once
 
-    @patch('logging.error')
-    def test_invalid_roles_staff(self, mocked_error, empty_token):
+    @patch('logging.warning')
+    def test_invalid_roles_staff(self, mocked_warning, empty_token):
         idem = Identity(empty_token)
 
         result = idem.is_staff()
 
         assert not result
-        mocked_error.assert_called_once
+        mocked_warning.assert_called_once
 
     def test_shops(self, token):
         idem = Identity(token(shops=['12345', '33442']))
@@ -103,14 +103,14 @@ class TestIdentity:
 
         assert shops == ['12345', '33442']
 
-    @patch('logging.error')
-    def test_shops_none(self, mocked_error, empty_token):
+    @patch('logging.warning')
+    def test_shops_none(self, mocked_warning, empty_token):
         idem = Identity(empty_token)
 
         shops = idem.shops()
 
         assert shops == []
-        mocked_error.assert_called_once
+        mocked_warning.assert_called_once
 
     def test_organizations(self, token):
         idem = Identity(token(organizations=['33333']))
@@ -119,14 +119,14 @@ class TestIdentity:
 
         assert organizations == ['33333']
 
-    @patch('logging.error')
-    def test_organizations_none(self, mocked_error, empty_token):
+    @patch('logging.warning')
+    def test_organizations_none(self, mocked_warning, empty_token):
         idem = Identity(empty_token)
 
         organizations = idem.organizations()
 
         assert organizations == []
-        mocked_error.assert_called_once
+        mocked_warning.assert_called_once
 
     def test_data(self, token):
         idem = Identity(token())

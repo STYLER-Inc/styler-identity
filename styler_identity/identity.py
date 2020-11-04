@@ -67,7 +67,7 @@ class Identity:
         """ Returns the collection of roles
         """
         if 'roles' not in self._decoded:
-            logging.error('roles not found')
+            logging.warning('roles not found')
             return []
         return self._decoded['roles']
 
@@ -75,6 +75,6 @@ class Identity:
         """ Returns the collection of custom claims
         """
         if 'claims' not in self._decoded:
-            logging.error('claims not found')
+            logging.warning('claims not found')
             return {}
         return self._decoded['claims']
